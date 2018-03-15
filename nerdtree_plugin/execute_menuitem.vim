@@ -3,7 +3,7 @@
 " Description: plugin for NERD Tree that provides an execute menu item, that
 "              executes system default application for file or directory
 " Maintainer:  Ivan Tkalin <itkalin at gmail dot com>
-" Last Change: 27 May, 2010
+" Last Change: 15 March, 2018
 " ============================================================================
 if exists("g:loaded_nerdtree_shell_exec_menuitem")
   finish
@@ -30,6 +30,8 @@ function! NERDTreeExecute()
     let args = shellescape(path,1)." > /dev/null"
   end
 
+  if has("unix") && executable("xdg-open")
+      exe "silent !xdg-open ".args
   if has("unix") && executable("gnome-open") && !s:haskdeinit
     exe "silent !gnome-open ".args
     let ret= v:shell_error
